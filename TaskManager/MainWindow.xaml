@@ -1,0 +1,74 @@
+﻿<RibbonWindow
+    x:Class="TaskManager.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:r="clr-namespace:Microsoft.Windows.Controls.Ribbon;assembly=RibbonControlsLibrary"
+    Width="600"
+    Height="450">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <r:Ribbon x:Name="RibbonWin" Title="Task Manager">
+            <r:Ribbon.ApplicationMenu>
+                <r:RibbonApplicationMenu Visibility="Collapsed" />
+            </r:Ribbon.ApplicationMenu>
+            <r:RibbonTab Header="Главная">
+                <r:RibbonGroup Header="Запуск процесса">
+                    <r:RibbonButton Label="Новый процесс" LargeImageSource="Images\mario1.png" Click="StartProcessRibbonButton_Click" />
+                </r:RibbonGroup>
+                <r:RibbonGroup Header="Поиск процесса">
+                    <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
+                        <r:RibbonTextBox VerticalAlignment="Center" />
+                        <r:RibbonButton Label="Найти" LargeImageSource="Images\mario1.png" Click="SerchRibbonButton_Click" />
+                    </StackPanel>
+                </r:RibbonGroup>
+            </r:RibbonTab>
+            <r:RibbonTab Header="Вид">
+                <r:RibbonGroup Header="Оформление">
+                    <r:RibbonButton Click="ColorGrayRibbonButton_Click" Label="Серый" LargeImageSource="Images\mario1.png" />
+                    <r:RibbonButton Click="ColorGreenRibbonButton_Click" Label="Зеленый" LargeImageSource="Images\mario1.png" />
+                    <r:RibbonButton Click="ColorBlueRibbonButton_Click" Label="Синий" LargeImageSource="Images\mario1.png" />
+                    <r:RibbonButton Click="ColorRedRibbonButton_Click" Label="Красный" LargeImageSource="Images\mario1.png" />
+                </r:RibbonGroup>
+            </r:RibbonTab>
+            <r:RibbonTab Header="Справка">
+                <r:RibbonGroup>
+                    <r:RibbonButton Label="Просмотр справки" LargeImageSource="Images\mario1.png" />
+                    <r:RibbonButton Label="Отправить отзыв" LargeImageSource="Images\mario1.png" />
+                    <r:RibbonButton Label="Проверка обновлений" LargeImageSource="Images\mario1.png" />
+                    <r:RibbonButton Label="О программе" LargeImageSource="Images\mario1.png" />
+                </r:RibbonGroup>
+            </r:RibbonTab>
+        </r:Ribbon>
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <ListView x:Name="processListView" Grid.Row="0" Grid.Column="0">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn DisplayMemberBinding="{Binding Id}" Width="50">ID</GridViewColumn>
+                        <GridViewColumn DisplayMemberBinding="{Binding Name}" Width="150">Процесс</GridViewColumn>
+                        <GridViewColumn DisplayMemberBinding="{Binding Size}" Width="100">Память</GridViewColumn>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+            <ScrollViewer Grid.Column="1">
+                <TextBlock x:Name="textBlock1"></TextBlock>
+            </ScrollViewer>
+        </Grid>
+        <Border Grid.Row="2" Background="Gray" BorderBrush="LightGray" BorderThickness="2">
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Horizontal">
+                <Label VerticalAlignment="Center" Content="Текущий процесс: " />
+                <Label x:Name="labelProcessName" VerticalAlignment="Center" />
+                <Button Content="Завершить процесс" Click="ProcessKillButton_Click" Width="150" Margin="10" Padding="10" />
+            </StackPanel>
+        </Border>
+    </Grid>
+</RibbonWindow>
