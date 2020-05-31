@@ -41,7 +41,7 @@ namespace TaskManager
 
         private void StartProcessRibbonButton_Click(object sender, RoutedEventArgs e)
         {
-            Process.Start("winword");
+            Process.Start("calc");
         }
 
         private void SerchRibbonButton_Click(object sender, RoutedEventArgs e)
