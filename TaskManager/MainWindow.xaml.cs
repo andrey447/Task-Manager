@@ -28,7 +28,9 @@ namespace TaskManager
 
         void LoadItems()
         {
-            foreach(Process process in Process.GetProcesses())
+            processListView.Items.Clear();
+
+            foreach (Process process in Process.GetProcesses())
             {
                 Proc item = new Proc();
                 item.Id = process.Id;
@@ -42,17 +44,23 @@ namespace TaskManager
         private void StartProcessRibbonButton_Click(object sender, RoutedEventArgs e)
         {
             Process.Start("calc");
+            LoadItems();
         }
 
         private void SerchRibbonButton_Click(object sender, RoutedEventArgs e)
         {
-            Process process = new Process();
-            process.StartInfo.FileName = "calc";
-            process.StartInfo.UseShellExecute = false;
-            process.StartInfo.Arguments = "/all";
-            process.StartInfo.RedirectStandardOutput = true;
-            process.Start();
-            textBlock1.Text = process.StandardOutput.ReadToEnd();
+            string name = (processListView.SelectedItem as Proc).Name;
+            Process process = Process.GetProcessesByName(name)[0];
+
+            string info = (DateTime.Now - process.StartTime).TotalSeconds.ToString();
+            textBlock1.Text = info;
+
+            //process.StartInfo.FileName = "calc";
+            //process.StartInfo.UseShellExecute = false;
+            //process.StartInfo.Arguments = "/all";
+            //process.StartInfo.RedirectStandardOutput = true;
+            //process.Start();
+            //textBlock1.Text = process.StandardOutput.ReadToEnd();
         }
 
         private void ColorGrayRibbonButton_Click(object sender, RoutedEventArgs e)
@@ -77,9 +85,15 @@ namespace TaskManager
 
         private void ProcessKillButton_Click(object sender, RoutedEventArgs e)
         {
-            ListViewItem item = (ListViewItem)processListView.SelectedItems[0];
-            Process process = (Process)item.Tag;
-            process.Kill();
+            string name = (processListView.SelectedItem as Proc).Name;
+            Process[] process = Process.GetProcesses();
+
+            foreach(Process i in process)
+            {
+                if (i.ProcessName.ToLower().Contains(name.ToLower()))
+                    i.Kill();
+            }
+
             LoadItems();
         }
     }
