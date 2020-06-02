@@ -58,6 +58,11 @@
                         <GridViewColumn DisplayMemberBinding="{Binding Size}" Width="100">Память</GridViewColumn>
                     </GridView>
                 </ListView.View>
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                        <EventSetter Event="MouseLeftButtonUp"  Handler="ListViewItem_PreviewMouseLeftButtonDown" />
+                    </Style>
+                </ListView.ItemContainerStyle>
             </ListView>
             <ScrollViewer Grid.Column="1">
                 <TextBlock x:Name="textBlock1"></TextBlock>

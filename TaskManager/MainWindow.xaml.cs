@@ -49,18 +49,7 @@ namespace TaskManager
 
         private void SerchRibbonButton_Click(object sender, RoutedEventArgs e)
         {
-            string name = (processListView.SelectedItem as Proc).Name;
-            Process process = Process.GetProcessesByName(name)[0];
 
-            string info = (DateTime.Now - process.StartTime).TotalSeconds.ToString();
-            textBlock1.Text = info;
-
-            //process.StartInfo.FileName = "calc";
-            //process.StartInfo.UseShellExecute = false;
-            //process.StartInfo.Arguments = "/all";
-            //process.StartInfo.RedirectStandardOutput = true;
-            //process.Start();
-            //textBlock1.Text = process.StandardOutput.ReadToEnd();
         }
 
         private void ColorGrayRibbonButton_Click(object sender, RoutedEventArgs e)
@@ -95,6 +84,50 @@ namespace TaskManager
             }
 
             LoadItems();
+        }
+
+        private void ListViewItem_PreviewMouseLeftButtonDown(object sender, MouseEventArgs e)
+        {
+            var item = sender as ListViewItem;
+
+            try
+            {
+                string name = (processListView.SelectedItem as Proc).Name;
+                Process process = Process.GetProcessesByName(name)[0];
+
+                string info = String.Format(
+                    "Процесс: {0} \n" +
+                    "Память: {1} \n" +
+                    "Базовый приоритет: {2} \n" +
+                    "Идентификатор сеанса служб: {3:T} \n" +
+                    "Полное время процесса: {4:T}",
+                    
+                    process.ProcessName,
+                    process.VirtualMemorySize64,
+                    process.BasePriority,
+                    (DateTime.Now - process.StartTime).ToString());
+                textBlock1.Text = info;
+            }
+
+            catch
+            {
+                textBlock1.Text = "Информация отсутствует.";
+            }
+            
+
+
+
+            //process.StartInfo.FileName = "calc";
+            //process.StartInfo.UseShellExecute = false;
+            //process.StartInfo.Arguments = "/all";
+            //process.StartInfo.RedirectStandardOutput = true;
+            //process.Start();
+            //textBlock1.Text = process.StandardOutput.ReadToEnd();
+        }
+
+        private void ListViewItem_MouseEnter(object sender, MouseEventArgs e)
+        {
+
         }
     }
 }
