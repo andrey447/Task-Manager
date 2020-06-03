@@ -43,13 +43,23 @@ namespace TaskManager
 
         private void StartProcessRibbonButton_Click(object sender, RoutedEventArgs e)
         {
-            Process.Start("calc");
-            LoadItems();
+            
         }
 
         private void SerchRibbonButton_Click(object sender, RoutedEventArgs e)
         {
-
+            if (textBox1.Text != null)
+            {
+                for(int i = processListView.Items.Count - 1; i>=0; i--)
+                {
+                    ListView item = new ListView();
+                    item = (ListView)processListView.Items[i];
+                    if(item.Name.ToLower().Contains(textBox1.Text.ToLower()))
+                    {
+                        item.Background =new SolidColorBrush(Color.FromRgb(125, 125,55));
+                    }
+                }
+            }
         }
 
         private void ColorGrayRibbonButton_Click(object sender, RoutedEventArgs e)
@@ -80,7 +90,9 @@ namespace TaskManager
             foreach(Process i in process)
             {
                 if (i.ProcessName.ToLower().Contains(name.ToLower()))
+                {
                     i.Kill();
+                }
             }
 
             LoadItems();
@@ -99,12 +111,12 @@ namespace TaskManager
                     "Процесс: {0} \n" +
                     "Память: {1} \n" +
                     "Базовый приоритет: {2} \n" +
-                    "Идентификатор сеанса служб: {3:T} \n" +
+                    "Дата и время процесса: {3} \n" +
                     "Полное время процесса: {4:T}",
-                    
                     process.ProcessName,
                     process.VirtualMemorySize64,
                     process.BasePriority,
+                    process.StartTime,
                     (DateTime.Now - process.StartTime).ToString());
                 textBlock1.Text = info;
             }

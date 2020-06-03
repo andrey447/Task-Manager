@@ -22,7 +22,7 @@
                 </r:RibbonGroup>
                 <r:RibbonGroup Header="Поиск процесса">
                     <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
-                        <r:RibbonTextBox VerticalAlignment="Center" />
+                        <r:RibbonTextBox x:Name="textBox1" VerticalAlignment="Center" />
                         <r:RibbonButton Label="Найти" LargeImageSource="Images\mario1.png" Click="SerchRibbonButton_Click" />
                     </StackPanel>
                 </r:RibbonGroup>
