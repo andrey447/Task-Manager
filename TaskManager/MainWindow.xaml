@@ -5,7 +5,7 @@
     xmlns:r="clr-namespace:Microsoft.Windows.Controls.Ribbon;assembly=RibbonControlsLibrary"
     Width="600"
     Height="450">
-    <Grid>
+    <Grid x:Name="grid">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
@@ -68,7 +68,7 @@
                 <TextBlock x:Name="textBlock1"></TextBlock>
             </ScrollViewer>
         </Grid>
-        <Border Grid.Row="2" Background="Gray" BorderBrush="LightGray" BorderThickness="2">
+        <Border x:Name="footer" Grid.Row="2" Background="Gray" BorderBrush="LightGray" BorderThickness="2">
             <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Horizontal">
                 <Label VerticalAlignment="Center" Content="Текущий процесс: " />
                 <Label x:Name="labelProcessName" VerticalAlignment="Center" />

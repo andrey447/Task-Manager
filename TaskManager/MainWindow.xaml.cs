@@ -14,6 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Diagnostics;
 using System.Windows.Controls.Ribbon;
+using System.ComponentModel;
 
 namespace TaskManager
 {
@@ -28,35 +29,38 @@ namespace TaskManager
 
         void LoadItems()
         {
-            processListView.Items.Clear();
+            //processListView.Items.Clear();
+            List<Proc> listProc = new List<Proc>();
 
             foreach (Process process in Process.GetProcesses())
             {
-                Proc item = new Proc();
-                item.Id = process.Id;
-                item.Name = process.ProcessName;
-                item.Size = process.VirtualMemorySize64;
-
-                processListView.Items.Add(item);
+                listProc.Add(new Proc() { Id = process.Id, Name = process.ProcessName, Size = process.PeakVirtualMemorySize64 });
             }
+            
+            processListView.ItemsSource = listProc;
+            
+            CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(processListView.ItemsSource);
+            view.SortDescriptions.Add(new SortDescription("Name", ListSortDirection.Ascending));
         }
 
         private void StartProcessRibbonButton_Click(object sender, RoutedEventArgs e)
         {
-            
+            Process.Start("calc");
+            MessageBox.Show("Запущен калькулятор.");
         }
 
         private void SerchRibbonButton_Click(object sender, RoutedEventArgs e)
         {
-            if (textBox1.Text != null)
+            if (textBox1.Text != "")
             {
                 for(int i = processListView.Items.Count - 1; i>=0; i--)
                 {
-                    ListView item = new ListView();
-                    item = (ListView)processListView.Items[i];
+                    Proc item = new Proc();
+                    item = (Proc)processListView.Items[i];
                     if(item.Name.ToLower().Contains(textBox1.Text.ToLower()))
                     {
-                        item.Background =new SolidColorBrush(Color.FromRgb(125, 125,55));
+                        MessageBox.Show("Данный процесс запущен. Реализовать выделение данного процесса в списке не удалось... В WPF не работает метод SelectedItem.");
+                        break;
                     }
                 }
             }
@@ -64,22 +68,34 @@ namespace TaskManager
 
         private void ColorGrayRibbonButton_Click(object sender, RoutedEventArgs e)
         {
-
+            grid.Background = new SolidColorBrush(Colors.Gray);
+            RibbonWin.Background = new SolidColorBrush(Colors.Gray);
+            processListView.Background = new SolidColorBrush(Colors.Gray);
+            footer.Background = new SolidColorBrush(Colors.Gray);
         }
 
         private void ColorGreenRibbonButton_Click(object sender, RoutedEventArgs e)
         {
-
+            grid.Background = new SolidColorBrush(Colors.Green);
+            RibbonWin.Background = new SolidColorBrush(Colors.Green);
+            processListView.Background = new SolidColorBrush(Colors.Green);
+            footer.Background = new SolidColorBrush(Colors.Green);
         }
 
         private void ColorBlueRibbonButton_Click(object sender, RoutedEventArgs e)
         {
-
+            grid.Background = new SolidColorBrush(Colors.Blue);
+            RibbonWin.Background = new SolidColorBrush(Colors.Blue);
+            processListView.Background = new SolidColorBrush(Colors.Blue);
+            footer.Background = new SolidColorBrush(Colors.Blue);
         }
 
         private void ColorRedRibbonButton_Click(object sender, RoutedEventArgs e)
         {
-
+            grid.Background = new SolidColorBrush(Colors.Red);
+            RibbonWin.Background = new SolidColorBrush(Colors.Red);
+            processListView.Background = new SolidColorBrush(Colors.Red);
+            footer.Background = new SolidColorBrush(Colors.Red);
         }
 
         private void ProcessKillButton_Click(object sender, RoutedEventArgs e)
